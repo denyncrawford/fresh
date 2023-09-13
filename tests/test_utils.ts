@@ -340,7 +340,11 @@ async function spawnServer(
 
 export async function runBuild(fixture: string) {
   const outDir = path.join(path.dirname(fixture), "_fresh");
-  await Deno.remove(outDir, { recursive: true });
+  try {
+    await Deno.remove(outDir, { recursive: true });
+  } catch {
+    // Ignore
+  }
 
   assert(
     fixture.endsWith("dev.ts"),
